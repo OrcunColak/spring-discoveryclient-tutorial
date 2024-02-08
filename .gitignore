@@ -1,3 +1,6 @@
 # Project exclude paths
 /itenary/target/
 /traveller/target/
+/traveller/traveller.iml
+/.idea/
+/itenary/itenary.iml
