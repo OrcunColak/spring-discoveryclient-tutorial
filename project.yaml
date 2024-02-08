@@ -1,0 +1,95 @@
+# Deployment Configuration
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: traveller
+  name: traveller
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: traveller
+  replicas: 1 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      labels:
+        app: traveller
+      name: traveller
+      namespace: default
+    spec:
+      containers:
+        - image: traveller:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: container-0
+          ports:
+            - containerPort: 8081 # Internal port
+              name: http
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+---
+# Deployment Configuration
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: itenary
+  name: itenary
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: itenary
+  replicas: 1 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      labels:
+        app: itenary
+      name: itenary
+      namespace: default
+    spec:
+      containers:
+        - image: itenary:1.0.0
+          imagePullPolicy: IfNotPresent
+          name: container-0
+          ports:
+            - containerPort: 8080 # Internal port
+              name: http
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: traveller-service
+  namespace: default
+spec:
+  ports:
+    - name: http
+      port: 8081 # Internal port
+      protocol: TCP
+      targetPort: 8081 # The port exposed by the service
+  selector:
+    app: traveller
+  type: LoadBalancer # type of the service. LoadBalancer indicates that our service will be external.
+status:
+  loadBalancer: { }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: itenary-service
+  namespace: default
+spec:
+  ports:
+    - name: http
+      port: 8080 # Internal port
+      protocol: TCP
+      targetPort: 8080 # The port exposed by the service
+  selector:
+    app: itenary
+  sessionAffinity: None
+  type: LoadBalancer # type of the service. LoadBalancer indicates that our service will be external.
+
