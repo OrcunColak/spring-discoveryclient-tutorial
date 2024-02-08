@@ -1,3 +1,33 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-service-account
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: traveller-role
+  namespace: default
+rules:
+  - apiGroups: ["","extensions", "apps"]
+    resources: ["configmaps", "secrets","services", "endpoints", "pods", "deployments", "replicasets"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: traveller-role-binding
+  namespace: default
+subjects:
+  - kind: ServiceAccount
+    name: my-service-account
+    namespace: default
+roleRef:
+  kind: Role
+  name: traveller-role
+  apiGroup: rbac.authorization.k8s.io
+---
 # Deployment Configuration
 apiVersion: apps/v1
 kind: Deployment
@@ -28,6 +58,8 @@ spec:
               protocol: TCP
           resources: {}
       restartPolicy: Always
+      serviceAccount: my-service-account
+      serviceAccountName: my-service-account
 ---
 # Deployment Configuration
 apiVersion: apps/v1
@@ -59,6 +91,8 @@ spec:
               protocol: TCP
           resources: {}
       restartPolicy: Always
+      serviceAccount: my-service-account
+      serviceAccountName: my-service-account
 ---
 apiVersion: v1
 kind: Service
@@ -90,6 +124,4 @@ spec:
       targetPort: 8080 # The port exposed by the service
   selector:
     app: itenary
-  sessionAffinity: None
-  type: LoadBalancer # type of the service. LoadBalancer indicates that our service will be external.
 

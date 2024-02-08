@@ -22,7 +22,7 @@ public class TravellerController {
         return "Welcome Traveller!!";
     }
 
-    // http://localhost:8081/getitenaries
+    // http://localhost:8081/api/traveller/getitenaries
     @GetMapping("/getitenaries")
     public List<ItenaryModel> getItenaries() {
         return itineraryClient.getitenaries();

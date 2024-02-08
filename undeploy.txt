@@ -1,5 +1,8 @@
 kubectl delete svc traveller-service
-kubectl delete svc itenary-service
 
 kubectl delete deployment traveller
 kubectl delete deployment itenary
+
+kubectl delete serviceaccount my-service-account
+kubectl delete role traveller-role
+kubectl delete rolebinding traveller-role-binding

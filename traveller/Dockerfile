@@ -1,4 +1,4 @@
-FROM openjdk:21-slim
+FROM openjdk:17
 ENV APP_FILE traveller-1.0.0.jar
 ENV APP_HOME /usr/apps
 EXPOSE 8080

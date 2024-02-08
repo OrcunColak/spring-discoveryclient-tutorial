@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(name = "itenary")
+@FeignClient(name = "itenary-service")
 public interface ItineraryClient {
 
     @GetMapping(path = "getitenaries")
