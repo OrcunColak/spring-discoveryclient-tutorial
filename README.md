@@ -20,17 +20,8 @@ docker build . -t itenary:1.0.0
 
 # Kubernetes
 
-```
-kubectl create serviceaccount my-service-account
-serviceaccount/my-service-account created
-```
-
 then
 
 ```
-kubectl create role traveller --verb=get --verb=list --verb=watch --resource=service,endpoints,pods,deployment,rs
-role.rbac.authorization.k8s.io/traveller created
-
-kubectl create rolebinding itenary --role=itenary --serviceaccount=ingress-nginx:my-service-account
-rolebinding.rbac.authorization.k8s.io/itenary created
+kubectl apply -f project.yaml
 ```
